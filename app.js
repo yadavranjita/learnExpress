@@ -21,8 +21,22 @@ const express = require('express');
 const app = express();
 const port = 3000;
 app.use(express.json());
-app.get('/', (req, res) =>{
-   res.send("Hello World");
+app.get('/users', (req, res) =>{
+   const users = [
+    {id: 1, name: 'John'},
+    {id: 2, name: 'Jane'},
+    {id: 3, name: 'Bob'},
+   ];
+    // res.send("Hello World");
+    res.json(users);
+});
+app.get('/users/:name', (req, res) =>{
+    const user = (`Hello ${req.params.name}`);
+    res.json(user);
+});
+app.get('/users/:id', (req, res) =>{
+    const user = {id: req.params.id, name: 'John'};
+    res.json(user);
 });
 
 app.listen(port, () =>{
