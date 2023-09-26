@@ -6,7 +6,7 @@ const userSchema = new schema(
       type: String,
       // required: [true, "Email is required"],
       trim: true,
-      maxlength: [50, "Email cannot be more than 50 characters"],
+      maxlength: [50, "Name cannot be more than 50 characters"],
     },
    
     email: {
@@ -19,6 +19,9 @@ const userSchema = new schema(
     password:{
        type: String,
     },
+    fname:{
+      type: String,
+   },
   
     role: {
       type: String,
