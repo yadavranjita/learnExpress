@@ -4,31 +4,36 @@ const userSchema = new schema(
   {
     name: {
       type: String,
-      required: true,
+      // required: [true, "Email is required"],
       trim: true,
-      maxlength: 50,
+      maxlength: [50, "Email cannot be more than 50 characters"],
     },
+   
     email: {
       type: String,
       required: [true, "Email is required"],
       trim: true,
       maxlength: [50, "Email cannot be more than 50 characters"],
     },
-
+   
+    password:{
+       type: String,
+    },
+  
     role: {
       type: String,
       enum: ["user", "admin", "superadmin"],
       default: "user",
     },
+   
     contact: {
       type: String,
-      required: [true, "Contact is required"],
       trim: true,
-      maxlength: [50, "Contact cannot be more than 50 characters"],
     },
     age: {
       type: Number,
-    },
+    }
+    
   },
   { timestamps: true }
 );
