@@ -66,40 +66,48 @@ router.post("/users/login", async (req, res) => {
     res.status(500).json({ msg: e, success: false });
   }
 });
+// Route for user registration
+router.post("/users/registerbyname", async (req, res) => {
+  const { name, email, password } = req.body;
 
-// router for register by name
-router.post("/users/registername", (req, res) => {
-  const name = req.body.name;
   try {
-    User.findOne({ name: name }).then((user_name) => {
-      if (user_name != null) {
-        res.status(400).json({ msg: "name already exists", success: false });
-        return;
-      } else {
-        const password = req.body.password;
-        bcryptjs.hash(password, 10, (e, hashed_pw) => {
-          if (e) {
-            res.status(500).json({ msg: e, success: false });
-            return;
-          } else {
-            const data = new User({
-              name: name,
-              password: hashed_pw,
-            });
-            data.save().then((data) => {
-              res.json({
-                msg: "user registered successfully",
-                success: true,
-                data,
-              });
-            });
-          }
+    // Check if the name already exists
+    const existingUser = await User.findOne({ name });
+    if (existingUser) {
+      return res.status(400).json({ msg: "Name already exists", success: false });
+    }
+
+    // Hash the password
+    bcryptjs.hash(password, 10, async (error, hashedPassword) => {
+      if (error) {
+        return res.status(500).json({ msg: error, success: false });
+      }
+
+      // Create a new user document
+      const newUser = new User({
+        name,
+        email,
+        password: hashedPassword,
+      });
+
+      try {
+        // Save the user to the database
+        await newUser.save();
+        res.status(201).json({
+          msg: "User registered successfully",
+          success: true,
+          data: newUser,
         });
+      } catch (saveError) {
+        res.status(500).json({ msg: saveError, success: false });
       }
     });
   } catch (e) {
     res.status(500).json({ msg: e, success: false });
   }
 });
+
+
+
 
 module.exports = router;

@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 
 const userRoutes = require("./Routes/userRoutes");
 const RegisterLoginRoutes = require("./Routes/RegisterLoginRoutes");
+
 const cors=require("cors")
 
 connectDB();
@@ -14,6 +15,7 @@ app.use(express.json())
 
 app.use(userRoutes);
 app.use(RegisterLoginRoutes);
+
 
 
 app.listen(port, () => {

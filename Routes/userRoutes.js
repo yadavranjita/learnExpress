@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
+const auth = require("../config/auth");
 
-router.post("/user/savedata", async (req, res) => {
+router.post("/user/savedata",  auth.verifyUser, async (req, res) => {
   const data = req.body;
   if (!data) {
     res.status(400).json({ msg: "Data not found", success: false });
